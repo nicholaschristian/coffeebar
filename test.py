@@ -1,35 +1,39 @@
 import RPi.GPIO as GPIO
 import time
 
-# List of GPIO pins you want to test
-TEST_PINS = [18,23]  # Adjust for your Pi model
+# --- Pin mapping with human-friendly names ---
+PINS = {
+    "LOW_FILL_SENSOR": 18,
+    "ESPRESSO_PUMP_RELAY": 23,
+}
 
-# Delay between state changes
-DELAY = 1  # seconds
+DELAY = 2  # seconds between state changes
 
 def setup():
     GPIO.setmode(GPIO.BCM)
-    for pin in TEST_PINS:
+    for name, pin in PINS.items():
         GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, GPIO.LOW)
+        print(f"[SETUP] {name} (GPIO {pin}) initialized to LOW")
 
 def cycle_pins():
     try:
         while True:
-            for pin in TEST_PINS:
-                print(f"[INFO] Setting GPIO {pin} HIGH")
+            for name, pin in PINS.items():
+                print(f"[STATE] {name} (GPIO {pin}) is ON")
                 GPIO.output(pin, GPIO.HIGH)
                 time.sleep(DELAY)
-                print(f"[INFO] Setting GPIO {pin} LOW")
+
+                print(f"[STATE] {name} (GPIO {pin}) is OFF")
                 GPIO.output(pin, GPIO.LOW)
                 time.sleep(DELAY)
     except KeyboardInterrupt:
-        print("\n[INFO] Stopping test...")
+        print("\n[INFO] Test stopped by user.")
     finally:
         GPIO.cleanup()
-        print("[INFO] GPIO cleanup done.")
+        print("[CLEANUP] GPIO pins reset.")
 
 if __name__ == "__main__":
-    print(f"[INFO] Testing GPIO pins: {TEST_PINS}")
+    print("[INFO] Starting GPIO state tester...")
     setup()
     cycle_pins()
