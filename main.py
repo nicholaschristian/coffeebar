@@ -41,12 +41,17 @@ class Sensor(Device):
 
 class CoffeeBar:
     def __init__(self):
-        self.LOW_FILL_SENSOR = Sensor("LOW_FILL_SENSOR", 0, "IN")
         self.HIGH_FILL_SENSOR = Sensor("HIGH_FILL_SENSOR", 1, "IN")
         self.TEMPERATURE_SENSOR = Sensor("TEMPERATURE_SENSOR", 2, "IN")
         self.ESPRESSO_PUMP = Device("ESPRESSO_PUMP", 3, "OUT")  # Pin updated to avoid conflict
         self.FILTER_PUMP = Device("FILTER_PUMP", 4, "OUT")
         self.PULSE_PUMP_BTN = Device("PULSE_PUMP_BTN", 5, "IN")
+
+
+
+
+        self.LOW_FILL_SENSOR = Sensor("LOW_FILL_SENSOR", 18, "IN")
+        self.ESPRESSO_PUMP_RELAY = Device("ESPRESSO_PUMP_RELAY", 23, "OUT")
 
         self.__SETUP__()
 
